@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/backgr98"
+    android:background="@drawable/list_bck"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".chon_background">
+
+    <Button
+        android:id="@+id/btnboqua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#6BB2D3"
+        android:fontFamily="@font/comfortaaregular"
+        android:text="SKIP"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.98" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginTop="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton01"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:layout_marginTop="0dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen1" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp"
+                app:cardPreventCornerOverlap="true">
+
+                <ImageButton
+                    android:id="@+id/imageButton02"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen2" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton03"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen3" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton04"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen4" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton05"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen5" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton06"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen6" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton07"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen7" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton08"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen8" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton09"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen9" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton10"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen10" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton11"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen11" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="300dp"
+                android:layout_height="700dp"
+                android:layout_marginLeft="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="10dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton12"
+                    android:layout_width="315dp"
+                    android:layout_height="715dp"
+                    android:background="@color/material_on_background_disabled"
+                    android:backgroundTint="@color/material_on_surface_disabled"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/nen12" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <ImageButton
+        android:id="@+id/quayve1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.035"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.985"
+        app:srcCompat="@drawable/quayve" />
+
+    <ImageButton
+        android:id="@+id/home1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.985"
+        app:srcCompat="@drawable/home" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
