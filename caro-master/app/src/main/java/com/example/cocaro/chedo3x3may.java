@@ -19,6 +19,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
+
 
 import java.util.ArrayList;
 
@@ -36,6 +42,10 @@ public class chedo3x3may extends AppCompatActivity {
     int[][] winningPositions = {{0,1,2},{3,4,5},{6,7,8},{0,3,6},{1,4,7},{2,5,8},{0,4,8},{2,4,6}};
     int activePlayer = 0;
     boolean gameActive = true;
+    private final Object stateLock = new Object();
+    private ExecutorService aiExecutor;
+    private Handler mainHandler;
+    private volatile boolean isThinking = false;
     ArrayList<Integer> lichsu1 = new ArrayList<>();
     ArrayList<Integer> listtag = new ArrayList<>();// khai bao array list
     ArrayList<ImageView> listimg = new ArrayList<>();
@@ -50,151 +60,123 @@ public class chedo3x3may extends AppCompatActivity {
                     obtn.setImageResource(R.drawable.victory);
                     s2 = MediaPlayer.create(this,R.raw.win);
                     s2.start();
+                    rsbtn.setEnabled(false);
                 }
                 else {
                     tvnc.setText("Bot win");
                     xbtn.setImageResource(R.drawable.lose);
                     s4 = MediaPlayer.create(this,R.raw.lose);
                     s4.start();
+                    rsbtn.setEnabled(false);
                 }
             }
         }
+        if (listtag.isEmpty()) {
+            gameActive=false;
+            tvnc.setText("HÒA");
+            obtn.setImageResource(R.drawable.draw);
+            s5.start();
+            rsbtn.setEnabled(false);
+        }
     }
-    public void dropIn(View view){
-        obtn = findViewById(R.id.obtn2);
-        xbtn = findViewById(R.id.xbtn2);
-        tvnc = findViewById(R.id.tvnc2);
-        rsbtn = findViewById(R.id.rsbtn2);
-        hbtn = findViewById(R.id.hbtn3);
-        btnchoilai = findViewById(R.id.btnchoilai2);
-        backgr = findViewById(R.id.backgr89);
-        Up = AnimationUtils.loadAnimation(this,R.anim.up);
-        Down = AnimationUtils.loadAnimation(this,R.anim.down);
-        s1 = MediaPlayer.create(chedo3x3may.this,R.raw.click);
-        s3 = MediaPlayer.create(this,R.raw.click_play);
-        s5 = MediaPlayer.create(this,R.raw.draw);
-        ImageView counter = (ImageView) view;
-        int tappedCounter = Integer.parseInt(counter.getTag().toString());
+    public void dropIn(View view) {
+        // Chặn nếu game kết thúc hoặc bot đang nghĩ
+        if (!gameActive || isThinking) return;
 
-        if (gameState[tappedCounter] == 2 && gameActive) {
-            s3.start();
-            lichsu1.add(tappedCounter);
-            lichsu2.add(counter);
-            counter.setImageResource(R.drawable.x1);
+        ImageView cell = (ImageView) view;
+        int idx = Integer.parseInt(cell.getTag().toString());
+
+        // ===== Người đi (UI thread) =====
+        synchronized (stateLock) {
+            if (gameState[idx] != 2) return;      // ô đã có quân
+
+            if (s3 != null) s3.start();           // âm click_play nếu muốn
+            cell.setImageResource(R.drawable.x1);  // đặt X
+            gameState[idx] = 1;                    // người = 1
+            activePlayer = 1;
+
+            // lịch sử
+            lichsu1.add(idx);
+            lichsu2.add(cell);
+
+            // XÓA THEO GIÁ TRỊ — nhớ ép kiểu Integer
+            listtag.remove((Integer) idx);
+
+            // cập nhật lượt
             xbtn.setVisibility(View.GONE);
             obtn.setVisibility(View.VISIBLE);
-            tvnc.setText("Bot's turn");
-            gameState[tappedCounter]=1;
-            activePlayer = 1;
-            checkwin();
-            if (!gameActive){
-                return;
-            }
-            listtag.remove(Integer.valueOf(tappedCounter+""));
-//            tvnc.setText(listtag.get(listtag.size()-1)+"");
-            if (listtag.isEmpty()){
-                gameActive=false;
-                tvnc.setText("HÒA");
-                obtn.setImageResource(R.drawable.draw);
-                s5.start();
-                return;
-            }
-            activePlayer=1;
-//            int irandom = listtag.get(listtag.size());
-            int irandom = (int) Math.floor(Math.random()*(listtag.size()));
-//            tvnc.setText(irandom+"");
-            int Bot = listtag.get(irandom);
-            listimg.get(Bot).setImageResource(R.drawable.o1);
-            obtn.setVisibility(View.GONE);
-            xbtn.setVisibility(View.VISIBLE);
-            tvnc.setText(ten1+" 's turn");
-            lichsu1.add(Bot);
-            lichsu2.add(listimg.get(Bot));
-            gameState[Bot]=0;
-            activePlayer = 0;
-            checkwin();
-            if (!gameActive){
-                return;
-            }
-            listtag.remove(Integer.valueOf(Bot+""));
-            if (listtag.isEmpty()){
-                gameActive=false;
-                tvnc.setText("HÒA");
-                xbtn.setImageResource(R.drawable.draw);
-                s5.start();
-                return;
-            }
         }
 
-        rsbtn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN){
-                    rsbtn.startAnimation(Up);
-                    s1.start();
-                } else if (event.getAction()==MotionEvent.ACTION_UP) {
-                    rsbtn.startAnimation(Down);
-                    if (lichsu1.isEmpty() && gameActive){
-                        Toast.makeText(chedo3x3may.this, "Chưa đi nước cờ nào !", Toast.LENGTH_SHORT).show();
-                    } else if (!gameActive) {
-                        Toast.makeText(chedo3x3may.this, "Đã có người chiến thắng, thử chơi lại đi !!!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        gameState[lichsu1.get(lichsu1.size()-1)]=2;
-                        gameState[lichsu1.get(lichsu1.size()-2)]=2;
-                        ImageView counter1 = lichsu2.get(lichsu2.size()-1);
-                        ImageView counter2 = lichsu2.get(lichsu2.size()-2);
-                        counter1.setImageResource(R.drawable.png1);
-                        counter2.setImageResource(R.drawable.png1);
-                        lichsu1.remove(lichsu1.size()-2);
-                        lichsu1.remove(lichsu1.size()-1);
-                        lichsu2.remove(lichsu2.size()-2);
-                        lichsu2.remove(lichsu2.size()-1);
+        // Kiểm tra thắng sau nước của người
+        checkwin();
+        if (!gameActive) return;
+        tvnc.setText("Bot's thinking...");
+        // ===== Bot suy nghĩ ở background thread =====
+        isThinking = true;
+        aiExecutor.submit(() -> {
+            Integer botMove;
+
+            // (A) chọn nước cho bot (random) trong nền
+            synchronized (stateLock) {
+                if (!gameActive || listtag.isEmpty()) {
+                    botMove = null; // hết ô → hoà
+                } else {
+                    int irandom = (int) Math.floor(Math.random() * listtag.size());
+                    botMove = listtag.get(irandom);
+                }
+            }
+
+            // (B) tạo cảm giác đang nghĩ (tuỳ chọn)
+            SystemClock.sleep(250);
+
+            // (C) cập nhật UI trên main thread
+            final Integer finalBotMove = botMove;
+            mainHandler.post(() -> {
+                try {
+                    if (!gameActive) return; // có thể đã reset trong lúc bot nghĩ
+
+                    if (finalBotMove == null) {
+                        // Không còn ô; checkwin sẽ xử lý hoà nếu cần
+                        checkwin();
+                        return;
+                    }
+
+                    synchronized (stateLock) {
+                        if (gameState[finalBotMove] != 2) return; // guard
+
+                        ImageView botCell = listimg.get(finalBotMove);
+                        botCell.setImageResource(R.drawable.o1);
+                        gameState[finalBotMove] = 0;   // bot = 0
                         activePlayer = 0;
+
+                        // lịch sử
+                        lichsu1.add(finalBotMove);
+                        lichsu2.add(botCell);
+
+                        // XÓA THEO GIÁ TRỊ — ép kiểu
+                        listtag.remove((Integer) finalBotMove);
+
+                        // lượt về người
                         obtn.setVisibility(View.GONE);
                         xbtn.setVisibility(View.VISIBLE);
                         tvnc.setText(ten1+" 's turn");
                     }
+
+                    checkwin();
+                } finally {
+                    isThinking = false;
                 }
-                return true;
-            }
-        });
-        btnchoilai.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN){
-                    btnchoilai.startAnimation(Up);
-                    s1.start();
-                } else if (event.getAction()==MotionEvent.ACTION_UP) {
-                    btnchoilai.startAnimation(Down);
-                    for (int i =0; i<lichsu1.size();i++){
-                        gameState[lichsu1.get(i)]=2;
-                        ImageView anh = lichsu2.get(i);
-                        anh.setImageResource(R.drawable.png1);
-                    }
-                    lichsu1.clear();
-                    lichsu2.clear();
-                    listtag.clear();
-                    for (int j= 0; j<9;j++){
-                        listtag.add(j);
-                    }
-                    activePlayer=0;
-                    obtn.setVisibility(View.GONE);
-                    xbtn.setVisibility(View.VISIBLE);
-                    tvnc.setText(ten1+" 's turn");
-                    obtn.setImageResource(R.drawable.o);
-                    obtn.setVisibility(View.GONE);
-                    xbtn.setImageResource(R.drawable.back1);
-                    gameActive = true;
-                }
-                return true;
-            }
+            });
         });
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_chedo3x3may);
+        aiExecutor = Executors.newSingleThreadExecutor();
+        mainHandler = new Handler(Looper.getMainLooper());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.backgr89), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -227,7 +209,96 @@ public class chedo3x3may extends AppCompatActivity {
         listimg.add(i0);listimg.add(i1);listimg.add(i2);listimg.add(i3);listimg.add(i4);listimg.add(i5);listimg.add(i6);listimg.add(i7);listimg.add(i8);
         ten1 = getIntent().getBundleExtra("bd99").getString("tenn1");
         tvnc.setText(ten1+" 's TURN");
+        obtn = findViewById(R.id.obtn2);
+        xbtn = findViewById(R.id.xbtn2);
+        tvnc = findViewById(R.id.tvnc2);
+        rsbtn = findViewById(R.id.rsbtn2);
+        hbtn = findViewById(R.id.hbtn3);
+        btnchoilai = findViewById(R.id.btnchoilai2);
+        backgr = findViewById(R.id.backgr89);
+        Up = AnimationUtils.loadAnimation(this,R.anim.up);
+        Down = AnimationUtils.loadAnimation(this,R.anim.down);
+        s5 = MediaPlayer.create(this,R.raw.draw);
         int bck1 = Integer.parseInt(getIntent().getBundleExtra("bd99").getString("bck").toString());
+        rsbtn.setOnTouchListener((v,e)->{
+            if (e.getAction()==MotionEvent.ACTION_DOWN){ v.startAnimation(Up); if (s1!=null) s1.start(); }
+            else if (e.getAction()==MotionEvent.ACTION_UP){
+                v.startAnimation(Down);
+                if (isThinking) {
+                    Toast.makeText(this, "Đợi bot đi xong rồi hoàn tác nhé!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                synchronized (stateLock) {
+                    if (!gameActive && lichsu1.size() < 2) {
+                        Toast.makeText(this, "Đã có người thắng, hãy 'Chơi lại'!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    if (lichsu1.size() < 2) {
+                        Toast.makeText(this, "Chưa đủ 2 nước để hoàn tác!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    int last = lichsu1.size()-1;   // bot
+                    int prev = last-1;             // người
+
+                    int idxBot  = lichsu1.get(last);
+                    int idxUser = lichsu1.get(prev);
+                    ImageView ivBot  = lichsu2.get(last);
+                    ImageView ivUser = lichsu2.get(prev);
+
+                    // trả về trống
+                    gameState[idxBot]  = 2;
+                    gameState[idxUser] = 2;
+                    ivBot.setImageResource(R.drawable.png1);
+                    ivUser.setImageResource(R.drawable.png1);
+
+                    // thêm lại vào danh sách ô trống
+                    listtag.add(idxBot);
+                    listtag.add(idxUser);
+                    // Collections.sort(listtag); // nếu muốn
+
+                    // xóa lịch sử từ cuối
+                    lichsu1.remove(last);
+                    lichsu1.remove(prev);
+                    lichsu2.remove(last);
+                    lichsu2.remove(prev);
+
+                    // lượt người
+                    activePlayer = 0;
+                    obtn.setVisibility(View.GONE);
+                    xbtn.setVisibility(View.VISIBLE);
+                    tvnc.setText(ten1+" 's turn");
+                    gameActive = true;
+                }
+            }
+            return true;
+        });
+
+        btnchoilai.setOnTouchListener((v,e)->{
+            if (e.getAction()==MotionEvent.ACTION_DOWN){ v.startAnimation(Up); if (s1!=null) s1.start(); }
+            else if (e.getAction()==MotionEvent.ACTION_UP){
+                v.startAnimation(Down);
+                if (isThinking) {
+                    Toast.makeText(this, "Đợi bot đi xong rồi hãy chơi lại!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                synchronized (stateLock) {
+                    // reset full
+                    for (int i=0;i<gameState.length;i++) gameState[i]=2;
+                    for (ImageView iv: listimg) iv.setImageResource(R.drawable.png1);
+                    lichsu1.clear(); lichsu2.clear();
+                    listtag.clear(); for (int j=0;j<9;j++) listtag.add(j);
+
+                    activePlayer=0; gameActive=true;
+                    obtn.setVisibility(View.GONE);
+                    xbtn.setVisibility(View.VISIBLE);
+                    xbtn.setImageResource(R.drawable.back1);
+                    obtn.setImageResource(R.drawable.o);
+                    tvnc.setText(ten1+" 's turn");
+                }
+            }
+            rsbtn.setEnabled(true);
+            return true;
+        });
         if (bck1==99){
             an1 = (AnimationDrawable) backgr.getBackground();
             an1.setEnterFadeDuration(1000);
