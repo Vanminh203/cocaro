@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class act_chon_muc_do extends AppCompatActivity {
     Button btnde, btnkho;
-    ImageButton btnqv, btnh1; // Sửa tên biến theo XML
+    ImageButton btnqv, btnh1;
     TextView tv2;
     ConstraintLayout mainLayout;
     AnimationDrawable an1;
