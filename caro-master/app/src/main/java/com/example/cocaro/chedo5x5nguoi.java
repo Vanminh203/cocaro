@@ -1,5 +1,6 @@
 package com.example.cocaro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -39,6 +40,7 @@ public class chedo5x5nguoi extends AppCompatActivity {
     boolean gameActive = true;
     ArrayList<Integer> lichsu1 = new ArrayList<>();
     ArrayList<ImageView> lichsu2 = new ArrayList<>();
+    @SuppressLint("ClickableViewAccessibility")
     public void dropIn(View view){
         obtn = findViewById(R.id.obtn1);
         xbtn = findViewById(R.id.xbtn1);
@@ -209,6 +211,7 @@ public class chedo5x5nguoi extends AppCompatActivity {
 //            }
 //        });
     }
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

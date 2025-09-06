@@ -1,5 +1,6 @@
 package com.example.cocaro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -28,6 +29,7 @@ public class chon_background extends AppCompatActivity {
     AnimationDrawable an1;
     Animation Up,Down;
     Button btnboqua;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

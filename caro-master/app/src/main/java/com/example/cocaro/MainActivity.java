@@ -1,5 +1,6 @@
 package com.example.cocaro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout mainLayout;
     AnimationDrawable an1;
     Animation Up,Down;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

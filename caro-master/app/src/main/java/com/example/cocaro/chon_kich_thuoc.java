@@ -1,5 +1,6 @@
 package com.example.cocaro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -22,10 +23,11 @@ import androidx.core.view.WindowInsetsCompat;
 public class chon_kich_thuoc extends AppCompatActivity {
     Button btn3x3, btn5x5;
     ImageButton btnq1, btn1h;
-    TextView tv2,tvvt1;
+    TextView tv2;
     ConstraintLayout mainLayout;
     AnimationDrawable an1;
     Animation Up,Down;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +51,7 @@ public class chon_kich_thuoc extends AppCompatActivity {
         btnq1 = findViewById(R.id.btnq1);
         btn1h = findViewById(R.id.btn1h);
         tv2 = findViewById(R.id.tv2);
-        tvvt1 = findViewById(R.id.tvvt1);
         String modee = getIntent().getBundleExtra("data_1").getString("mode_1");
-        if (modee.equals("may")){
-            tvvt1.setVisibility(View.GONE);
-        }
         btn3x3.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -62,7 +60,7 @@ public class chon_kich_thuoc extends AppCompatActivity {
                     s1.start();
                 } else if (event.getAction()==MotionEvent.ACTION_UP) {
                     btn3x3.startAnimation(Down);
-                    Intent it2 = new Intent(chon_kich_thuoc.this, nhap_ten_ng_choi.class);
+                    Intent it2 = new Intent(chon_kich_thuoc.this, act_chon_muc_do.class);
                     Bundle bd2 = new Bundle();
                     bd2.putString("mode_2",modee);
                     bd2.putString("grid_2","x33");
@@ -80,7 +78,7 @@ public class chon_kich_thuoc extends AppCompatActivity {
                     s1.start();
                 } else if (event.getAction()==MotionEvent.ACTION_UP) {
                     btn5x5.startAnimation(Down);
-                    Intent it2 = new Intent(chon_kich_thuoc.this, nhap_ten_ng_choi.class);
+                    Intent it2 = new Intent(chon_kich_thuoc.this, act_chon_muc_do.class);
                     Bundle bd2 = new Bundle();
                     bd2.putString("mode_2",modee);
                     bd2.putString("grid_2","x55");

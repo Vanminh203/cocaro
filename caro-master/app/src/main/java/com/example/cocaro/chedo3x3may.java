@@ -1,5 +1,6 @@
 package com.example.cocaro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -60,15 +61,15 @@ public class chedo3x3may extends AppCompatActivity {
                     obtn.setImageResource(R.drawable.victory);
                     s2 = MediaPlayer.create(this,R.raw.win);
                     s2.start();
-                    rsbtn.setEnabled(false);
                 }
                 else {
                     tvnc.setText("Bot win");
                     xbtn.setImageResource(R.drawable.lose);
                     s4 = MediaPlayer.create(this,R.raw.lose);
                     s4.start();
-                    rsbtn.setEnabled(false);
                 }
+                rsbtn.setEnabled(false);
+                return;
             }
         }
         if (listtag.isEmpty()) {
@@ -79,6 +80,7 @@ public class chedo3x3may extends AppCompatActivity {
             rsbtn.setEnabled(false);
         }
     }
+    @SuppressLint("SetTextI18n")
     public void dropIn(View view) {
         // Chặn nếu game kết thúc hoặc bot đang nghĩ
         if (!gameActive || isThinking) return;
@@ -170,6 +172,7 @@ public class chedo3x3may extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -229,10 +232,6 @@ public class chedo3x3may extends AppCompatActivity {
                     return true;
                 }
                 synchronized (stateLock) {
-                    if (!gameActive && lichsu1.size() < 2) {
-                        Toast.makeText(this, "Đã có người thắng, hãy 'Chơi lại'!", Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
                     if (lichsu1.size() < 2) {
                         Toast.makeText(this, "Chưa đủ 2 nước để hoàn tác!", Toast.LENGTH_SHORT).show();
                         return true;

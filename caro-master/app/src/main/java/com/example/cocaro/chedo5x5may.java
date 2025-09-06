@@ -1,5 +1,6 @@
 package com.example.cocaro;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
@@ -63,6 +64,7 @@ public class chedo5x5may extends AppCompatActivity {
             }
         }
     }
+    @SuppressLint("ClickableViewAccessibility")
     public void dropIn(View view){
         obtn = findViewById(R.id.obtn4);
         xbtn = findViewById(R.id.xbtn4);
@@ -97,7 +99,6 @@ public class chedo5x5may extends AppCompatActivity {
                 return;
             }
             listtag.remove(Integer.valueOf(tappedCounter+""));
-//            tvnc.setText(listtag.get(listtag.size()-1)+"");
             if (listtag.isEmpty()){
                 gameActive=false;
                 tvnc.setText("HÒA");
@@ -203,6 +204,7 @@ public class chedo5x5may extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
