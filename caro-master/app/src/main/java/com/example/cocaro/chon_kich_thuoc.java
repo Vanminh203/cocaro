@@ -55,17 +55,29 @@ public class chon_kich_thuoc extends AppCompatActivity {
         btn3x3.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     btn3x3.startAnimation(Up);
                     s1.start();
-                } else if (event.getAction()==MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     btn3x3.startAnimation(Down);
-                    Intent it2 = new Intent(chon_kich_thuoc.this, act_chon_muc_do.class);
-                    Bundle bd2 = new Bundle();
-                    bd2.putString("mode_2",modee);
-                    bd2.putString("grid_2","x33");
-                    it2.putExtra("data_2",bd2);
-                    startActivity(it2);
+
+                    if (modee.equals("may")) {
+                        // Nếu chơi với máy -> chọn mức độ
+                        Intent it2 = new Intent(chon_kich_thuoc.this, act_chon_muc_do.class);
+                        Bundle bd2 = new Bundle();
+                        bd2.putString("mode_2", modee);
+                        bd2.putString("grid_2", "x33");
+                        it2.putExtra("data_2", bd2);
+                        startActivity(it2);
+                    } else {
+                        // Nếu chơi với người -> vào game luôn
+                        Intent it2 = new Intent(chon_kich_thuoc.this, nhap_ten_ng_choi.class);
+                        Bundle bd2 = new Bundle();
+                        bd2.putString("mode_2", modee);
+                        bd2.putString("grid_2", "x33");
+                        it2.putExtra("data_2", bd2);
+                        startActivity(it2);
+                    }
                 }
                 return true;
             }
@@ -73,17 +85,27 @@ public class chon_kich_thuoc extends AppCompatActivity {
         btn5x5.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN){
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     btn5x5.startAnimation(Up);
                     s1.start();
-                } else if (event.getAction()==MotionEvent.ACTION_UP) {
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     btn5x5.startAnimation(Down);
-                    Intent it2 = new Intent(chon_kich_thuoc.this, act_chon_muc_do.class);
-                    Bundle bd2 = new Bundle();
-                    bd2.putString("mode_2",modee);
-                    bd2.putString("grid_2","x55");
-                    it2.putExtra("data_2",bd2);
-                    startActivity(it2);
+
+                    if (modee.equals("may")) {
+                        Intent it2 = new Intent(chon_kich_thuoc.this, act_chon_muc_do.class);
+                        Bundle bd2 = new Bundle();
+                        bd2.putString("mode_2", modee);
+                        bd2.putString("grid_2", "x55");
+                        it2.putExtra("data_2", bd2);
+                        startActivity(it2);
+                    } else if (modee.equals("nguoi")) {
+                        Intent it2 = new Intent(chon_kich_thuoc.this, nhap_ten_ng_choi.class);
+                        Bundle bd2 = new Bundle();
+                        bd2.putString("mode_2", modee);
+                        bd2.putString("grid_2", "x55");
+                        it2.putExtra("data_2", bd2);
+                        startActivity(it2);
+                    }
                 }
                 return true;
             }

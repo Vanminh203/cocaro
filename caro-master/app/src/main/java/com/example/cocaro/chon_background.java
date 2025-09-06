@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -50,11 +51,22 @@ public class chon_background extends AppCompatActivity {
         final MediaPlayer s1 = MediaPlayer.create(this,R.raw.click);
         btnboqua = findViewById(R.id.btnboqua);
 //        tvbc = findViewById(R.id.tvbc);
-        modee = getIntent().getBundleExtra("data_3").getString("mode_3");
-        gridd = getIntent().getBundleExtra("data_3").getString("grid_3");
-        ten1 = getIntent().getBundleExtra("data_3").getString("ten_331");
-        ten2 = getIntent().getBundleExtra("data_3").getString("ten_332");
-
+        Bundle bundle = getIntent().getBundleExtra("data_4");
+        if (bundle != null) {
+            modee = bundle.getString("mode_4", "");
+            gridd = bundle.getString("grid_4", "");
+            ten1 = bundle.getString("ten_441", "Player 1");
+            ten2 = bundle.getString("ten_442", "Player 2");
+        } else {
+            modee = "";
+            gridd = "";
+            ten1 = "Player 1";
+            ten2 = "Player 2";
+        }
+        Log.d("DEBUG", "modee: " + modee);
+        Log.d("DEBUG", "gridd: " + gridd);
+        Log.d("DEBUG", "ten1: " + ten1);
+        Log.d("DEBUG", "ten2: " + ten2);
 //        tvbc.setText(ten2);
 
 
